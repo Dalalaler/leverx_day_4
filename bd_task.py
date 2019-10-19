@@ -16,26 +16,25 @@ def connection(host, database, user, password):
         print(e)
 
 
-def commit_query(query):
-    try:
-        conn = connection(host, database, user, password)
-        cursor = conn.cursor()
-        cursor.execute(query)
-    except Error as e:
-        print(e)
-    finally:
-        return cursor.fetchall()
-        cursor.close()
-        conn.close()
-
-
 def count_students_in_rooms():
     query = f""" select rooms.name, count(*)
                 from  rooms join students
                 on rooms.id = students.room
                 GROUP BY students.room 
                 order by LENGTH(rooms.name), rooms.name; """
-    commit_query(query)
+    try:
+        conn = connection(host, database, user, password)
+        cursor = conn.cursor()
+        cursor.execute(query)
+
+
+    except Error as e:
+        print(e)
+
+    finally:
+        return cursor.fetchall()
+        cursor.close()
+        conn.close()
 
 
 def search_lowest_avg_age():
@@ -49,7 +48,19 @@ def search_lowest_avg_age():
                 on rooms.id = students.room
                 group by rooms.name
                 order by age limit 5;"""
-    commit_query(query)
+    try:
+        conn = connection(host, database, user, password)
+        cursor = conn.cursor()
+        cursor.execute(query)
+
+
+    except Error as e:
+        print(e)
+
+    finally:
+        return cursor.fetchall()
+        cursor.close()
+        conn.close()
 
 
 def search_max_difference():
@@ -71,7 +82,19 @@ def search_max_difference():
                 on rooms.id = students.room
                 group by rooms.name
                 order by difference DESC limit 5;"""
-    commit_query(query)
+    try:
+        conn = connection(host, database, user, password)
+        cursor = conn.cursor()
+        cursor.execute(query)
+
+
+    except Error as e:
+        print(e)
+
+    finally:
+        return cursor.fetchall()
+        cursor.close()
+        conn.close()
 
 
 def search_different_sexes():
@@ -81,7 +104,19 @@ def search_different_sexes():
                 GROUP BY rooms.name, students.sex
                 HAVING COUNT(*) >= 0
                 order by LENGTH(rooms.name), rooms.name, students.sex;"""
-    commit_query(query)
+    try:
+        conn = connection(host, database, user, password)
+        cursor = conn.cursor()
+        cursor.execute(query)
+
+
+    except Error as e:
+        print(e)
+
+    finally:
+        return cursor.fetchall()
+        cursor.close()
+        conn.close()
 
 
 def insert_room(rooms_json):
